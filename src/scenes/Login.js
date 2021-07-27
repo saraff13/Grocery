@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Button, SafeAreaView, Text, TextInput} from 'react-native';
+import {SafeAreaView, Text, TextInput} from 'react-native';
 import {connect} from 'react-redux';
 import styles from '../styles/LoginStyle';
 import {initLogin} from '../store/actions/loginAction';
+import Button from '../components/Button';
 
 class Login extends Component {
   state = {
