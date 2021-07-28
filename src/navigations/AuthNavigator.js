@@ -5,6 +5,11 @@ import Home from '../scenes/Home';
 import Login from '../scenes/Login';
 import {setUserData} from '../store/actions/loginAction';
 import Loader from '../components/Loader';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Birthday from '../scenes/Birthday';
+
+const Stack = createStackNavigator();
 
 class AuthNavigator extends Component {
   state = {
@@ -29,8 +34,20 @@ class AuthNavigator extends Component {
 
     if (loading) return <Loader loading={loading} />;
 
-    if (user) return <Home />;
-    else return <Login />;
+    return (
+      <NavigationContainer>
+        {user ? (
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Birthday" component={Birthday} />
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    );
   }
 }
 
