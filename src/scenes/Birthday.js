@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import styles from '../styles/BirthdayStyle';
 import Button from '../components/Button';
 import DatePicker from 'react-native-date-picker';
+import {
+  addBirthdayItem,
+  deleteBirthdayItem,
+} from '../store/actions/birthdayAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Icon = MaterialCommunityIcons;
@@ -14,15 +18,8 @@ class Birthday extends Component {
     birthdayDate: '',
     shoppingDate: new Date(),
     showDatePicker: false,
-    data: [],
     itemName: '',
     itemQuantity: '',
-  };
-  addItem = () => {
-    const {data, itemName, itemQuantity} = this.state;
-    data.push({itemName, itemQuantity});
-    this.setState({itemName: ''});
-    this.setState({itemQuantity: ''});
   };
   render() {
     const {
@@ -30,10 +27,12 @@ class Birthday extends Component {
       shoppingDate,
       showDatePicker,
       birthdayDate,
-      data,
       itemName,
       itemQuantity,
     } = this.state;
+
+    const {itemList} = this.props;
+
     // console.log(this.state);
     return (
       <SafeAreaView style={[styles.main]}>
@@ -73,6 +72,7 @@ class Birthday extends Component {
           title="Home"
           onPress={() => this.props.navigation.navigate('Home')}
         />
+
         <View>
           <Text>Make a list of shopping</Text>
           <TextInput
@@ -85,10 +85,19 @@ class Birthday extends Component {
             value={itemQuantity}
             onChangeText={itemQuantity => this.setState({itemQuantity})}
           />
-          <Button title="ADD" onPress={() => this.addItem()} />
+          <Text>
+            {itemName && itemQuantity && (
+              <Button
+                title="ADD"
+                onPress={() =>
+                  this.props.addBirthdayItem({itemList, itemName, itemQuantity})
+                }
+              />
+            )}
+          </Text>
         </View>
         <View>
-          {data.map((item, index) => {
+          {itemList.map((item, index) => {
             return (
               <View key={index}>
                 <Text>
@@ -97,9 +106,7 @@ class Birthday extends Component {
                 <Button
                   title="delete"
                   onPress={() =>
-                    this.setState({
-                      data: data.slice(0, index).concat(data.slice(index + 1)),
-                    })
+                    this.props.deleteBirthdayItem({itemList, index})
                   }
                 />
               </View>
@@ -111,4 +118,10 @@ class Birthday extends Component {
   }
 }
 
-export default connect(null)(Birthday);
+const mapStateToProps = state => ({
+  itemList: state.birthdayReducer.itemList,
+});
+
+export default connect(mapStateToProps, {addBirthdayItem, deleteBirthdayItem})(
+  Birthday,
+);
