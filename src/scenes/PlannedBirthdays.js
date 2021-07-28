@@ -13,7 +13,7 @@ import {
 class PlannedBirthdays extends Component {
   state = {
     loading: true,
-    data: null,
+    data: [],
   };
   componentDidMount() {
     AsyncStorage.getItem('birthdayData')
@@ -47,25 +47,29 @@ class PlannedBirthdays extends Component {
           onPress={() => this.props.navigation.navigate('Birthday')}
         />
         <Text>Planned Birthdays</Text>
-        {data && (
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.setBirthdayData(data) &&
-                  this.props.navigation.navigate('Birthday');
-              }}>
-              <Text>
-                {data.name}'s birthday is on {data.birthdayDate}
-              </Text>
-            </TouchableOpacity>
-            <Button
-              title="cancel"
-              onPress={() => {
-                this.props.deleteBirthdayData() && this.updateData();
-              }}
-            />
-          </View>
-        )}
+
+        {data.map((item, index) => {
+          return (
+            <View key={index}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.setBirthdayData(item) &&
+                    this.props.navigation.navigate('Birthday');
+                }}>
+                <Text>
+                  {item.name}'s birthday is on {item.birthdayDate}
+                </Text>
+              </TouchableOpacity>
+              <Button
+                title="cancel"
+                onPress={() => {
+                  this.props.deleteBirthdayData({data, index}) &&
+                    this.updateData();
+                }}
+              />
+            </View>
+          );
+        })}
       </SafeAreaView>
     );
   }

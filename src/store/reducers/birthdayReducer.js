@@ -2,6 +2,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as types from '../actionTypes';
 
 const INITIAL_STATE = {
+  name: '',
+  birthdayDate: '',
+  shoppingDate: new Date(),
   itemList: [],
   error: null,
   loading: false,
@@ -45,14 +48,34 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
       };
     case types.SAVE_BIRTHDAY_DATA:
-      AsyncStorage.setItem('birthdayData', JSON.stringify(action.payload));
+      AsyncStorage.getItem('birthdayData')
+        .then(data => {
+          AsyncStorage.setItem(
+            'birthdayData',
+            JSON.stringify([...JSON.parse(data), action.payload]),
+          );
+        })
+        .catch(error => {
+          console.log('reducer error => ', error);
+          AsyncStorage.setItem(
+            'birthdayData',
+            JSON.stringify([action.payload]),
+          );
+        });
       return {
         ...state,
         ...INITIAL_STATE,
         loading: false,
       };
     case types.DELETE_BIRTHDAY_DATA:
-      AsyncStorage.removeItem('birthdayData');
+      AsyncStorage.setItem(
+        'birthdayData',
+        JSON.stringify(
+          action.payload.data
+            .slice(0, action.payload.index)
+            .concat(action.payload.data.slice(action.payload.index + 1)),
+        ),
+      );
       return {
         ...state,
         ...INITIAL_STATE,
@@ -63,6 +86,9 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         ...INITIAL_STATE,
         itemList: action.payload.itemList,
+        name: action.payload.name,
+        birthdayDate: action.payload.birthdayDate,
+        shoppingDate: action.payload.shoppingDate,
       };
     default:
       return state;

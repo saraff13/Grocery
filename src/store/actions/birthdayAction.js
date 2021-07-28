@@ -15,8 +15,9 @@ export const saveBirthdayData = payload => ({
   payload,
 });
 
-export const deleteBirthdayData = () => ({
+export const deleteBirthdayData = payload => ({
   type: types.DELETE_BIRTHDAY_DATA,
+  payload,
 });
 
 export const setBirthdayData = payload => ({
