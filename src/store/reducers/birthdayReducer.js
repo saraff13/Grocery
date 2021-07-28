@@ -44,6 +44,26 @@ export default (state = INITIAL_STATE, action) => {
         error: action.payload,
         loading: false,
       };
+    case types.SAVE_BIRTHDAY_DATA:
+      AsyncStorage.setItem('birthdayData', JSON.stringify(action.payload));
+      return {
+        ...state,
+        ...INITIAL_STATE,
+        loading: false,
+      };
+    case types.DELETE_BIRTHDAY_DATA:
+      AsyncStorage.removeItem('birthdayData');
+      return {
+        ...state,
+        ...INITIAL_STATE,
+        loading: false,
+      };
+    case types.SET_BIRTHDAY_DATA:
+      return {
+        ...state,
+        ...INITIAL_STATE,
+        itemList: action.payload.itemList,
+      };
     default:
       return state;
   }

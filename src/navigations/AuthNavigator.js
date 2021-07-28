@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Birthday from '../scenes/Birthday';
+import PlannedBirthdays from '../scenes/PlannedBirthdays';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,10 @@ class AuthNavigator extends Component {
         {user ? (
           <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              name="PlannedBirthdays"
+              component={PlannedBirthdays}
+            />
             <Stack.Screen name="Birthday" component={Birthday} />
           </Stack.Navigator>
         ) : (

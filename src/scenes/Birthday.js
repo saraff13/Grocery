@@ -7,6 +7,7 @@ import DatePicker from 'react-native-date-picker';
 import {
   addBirthdayItem,
   deleteBirthdayItem,
+  saveBirthdayData,
 } from '../store/actions/birthdayAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -113,6 +114,20 @@ class Birthday extends Component {
             );
           })}
         </View>
+        <Button
+          title="save"
+          onPress={() =>
+            this.props.saveBirthdayData({
+              name,
+              shoppingDate,
+              showDatePicker,
+              birthdayDate,
+              itemName,
+              itemQuantity,
+              itemList,
+            })
+          }
+        />
       </SafeAreaView>
     );
   }
@@ -122,6 +137,8 @@ const mapStateToProps = state => ({
   itemList: state.birthdayReducer.itemList,
 });
 
-export default connect(mapStateToProps, {addBirthdayItem, deleteBirthdayItem})(
-  Birthday,
-);
+export default connect(mapStateToProps, {
+  addBirthdayItem,
+  deleteBirthdayItem,
+  saveBirthdayData,
+})(Birthday);

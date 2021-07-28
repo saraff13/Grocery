@@ -11,8 +11,8 @@ class Home extends Component {
       <SafeAreaView style={[styles.main]}>
         <Text>Home here</Text>
         <Button
-          title="Birthday"
-          onPress={() => this.props.navigation.navigate('Birthday')}
+          title="Birthday Section"
+          onPress={() => this.props.navigation.navigate('PlannedBirthdays')}
         />
         <Button title="Logout" onPress={() => this.props.initLogout()} />
       </SafeAreaView>
