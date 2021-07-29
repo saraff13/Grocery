@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
-import styles from '../styles/PlannedBirthdaysStyle';
-import Button from '../components/Button';
+import styles from '../../styles/PlannedBirthdaysStyle';
+import Button from '../../components/Button';
 import AsyncStorage from '@react-native-community/async-storage';
-import Loader from '../components/Loader';
+import Loader from '../../components/Loader';
 import {
   deleteBirthdayData,
   setBirthdayData,
-} from '../store/actions/birthdayAction';
+} from '../../store/actions/birthdayAction';
 
 class PlannedBirthdays extends Component {
   state = {
@@ -39,7 +39,7 @@ class PlannedBirthdays extends Component {
   render() {
     const {loading, data} = this.state;
     if (loading) return <Loader loading={loading} />;
-    console.log(data);
+    // console.log(data);
     return (
       <SafeAreaView style={[styles.main]}>
         <Button
@@ -48,28 +48,29 @@ class PlannedBirthdays extends Component {
         />
         <Text>Planned Birthdays</Text>
 
-        {data.map((item, index) => {
-          return (
-            <View key={index}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.setBirthdayData(item) &&
-                    this.props.navigation.navigate('Birthday');
-                }}>
-                <Text>
-                  {item.name}'s birthday is on {item.birthdayDate}
-                </Text>
-              </TouchableOpacity>
-              <Button
-                title="cancel"
-                onPress={() => {
-                  this.props.deleteBirthdayData({data, index}) &&
-                    this.updateData();
-                }}
-              />
-            </View>
-          );
-        })}
+        {data &&
+          data.map((item, index) => {
+            return (
+              <View key={index}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.setBirthdayData(item) &&
+                      this.props.navigation.navigate('ShowBirthdayItemList');
+                  }}>
+                  <Text>
+                    {item.name}'s birthday is on {item.birthdayDate}
+                  </Text>
+                </TouchableOpacity>
+                <Button
+                  title="cancel"
+                  onPress={() => {
+                    this.props.deleteBirthdayData({data, index}) &&
+                      this.updateData();
+                  }}
+                />
+              </View>
+            );
+          })}
       </SafeAreaView>
     );
   }

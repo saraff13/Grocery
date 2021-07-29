@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text, TextInput, View} from 'react-native';
 import {connect} from 'react-redux';
-import styles from '../styles/BirthdayStyle';
-import Button from '../components/Button';
+import styles from '../../styles/BirthdayStyle';
+import Button from '../../components/Button';
 import DatePicker from 'react-native-date-picker';
 import {
   addBirthdayItem,
   deleteBirthdayItem,
   saveBirthdayData,
-} from '../store/actions/birthdayAction';
+} from '../../store/actions/birthdayAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Icon = MaterialCommunityIcons;
@@ -125,7 +125,7 @@ class Birthday extends Component {
               itemName,
               itemQuantity,
               itemList,
-            })
+            }) && this.props.navigation.navigate('Home')
           }
         />
       </SafeAreaView>
