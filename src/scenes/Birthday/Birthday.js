@@ -8,6 +8,8 @@ import {
   addBirthdayItem,
   deleteBirthdayItem,
   saveBirthdayData,
+  changeDOB,
+  changeName,
 } from '../../store/actions/birthdayAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,39 +17,29 @@ const Icon = MaterialCommunityIcons;
 
 class Birthday extends Component {
   state = {
-    name: '',
-    birthdayDate: '',
     shoppingDate: new Date(),
     showDatePicker: false,
     itemName: '',
     itemQuantity: '',
   };
   render() {
-    const {
-      name,
-      shoppingDate,
-      showDatePicker,
-      birthdayDate,
-      itemName,
-      itemQuantity,
-    } = this.state;
+    const {shoppingDate, showDatePicker, itemName, itemQuantity} = this.state;
 
-    const {itemList} = this.props;
+    const {name, itemList, birthdayDate} = this.props;
 
-    // console.log(this.state);
     return (
       <SafeAreaView style={[styles.main]}>
         <TextInput
           value={name}
           placeholder="Enter whose birthday it is"
-          onChangeText={name => this.setState({name})}
+          onChangeText={name => this.props.changeName(name)}
         />
         <View>
           <Text>DOB: </Text>
           <TextInput
             value={birthdayDate}
             placeholder="dd-mm-yyyy"
-            onChangeText={birthdayDate => this.setState({birthdayDate})}
+            onChangeText={birthdayDate => this.props.changeDOB(birthdayDate)}
           />
         </View>
 
@@ -118,10 +110,10 @@ class Birthday extends Component {
           title="save"
           onPress={() =>
             this.props.saveBirthdayData({
-              name,
+              name: name, // because this is in props
               shoppingDate,
               showDatePicker,
-              birthdayDate,
+              birthdayDate: birthdayDate, // because this is in props
               itemName,
               itemQuantity,
               itemList,
@@ -135,10 +127,14 @@ class Birthday extends Component {
 
 const mapStateToProps = state => ({
   itemList: state.birthdayReducer.itemList,
+  name: state.birthdayReducer.name,
+  birthdayDate: state.birthdayReducer.birthdayDate,
 });
 
 export default connect(mapStateToProps, {
   addBirthdayItem,
   deleteBirthdayItem,
   saveBirthdayData,
+  changeDOB,
+  changeName,
 })(Birthday);

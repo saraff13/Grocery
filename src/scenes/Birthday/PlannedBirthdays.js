@@ -44,7 +44,14 @@ class PlannedBirthdays extends Component {
       <SafeAreaView style={[styles.main]}>
         <Button
           title="Plan New"
-          onPress={() => this.props.navigation.navigate('Birthday')}
+          onPress={() =>
+            this.props.setBirthdayData({
+              itemList: [],
+              name: '',
+              birthdayDate: '',
+              shoppingDate: '',
+            }) && this.props.navigation.navigate('Birthday')
+          }
         />
         <Text>Planned Birthdays</Text>
 

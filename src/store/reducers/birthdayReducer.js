@@ -26,7 +26,6 @@ export default (state = INITIAL_STATE, action) => {
       ];
       return {
         ...state,
-        ...INITIAL_STATE,
         itemList: updatedData,
         loading: false,
       };
@@ -36,7 +35,6 @@ export default (state = INITIAL_STATE, action) => {
         .concat(action.payload.itemList.slice(action.payload.index + 1));
       return {
         ...state,
-        ...INITIAL_STATE,
         itemList: newData,
         loading: false,
       };
@@ -48,6 +46,7 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
       };
     case types.SAVE_BIRTHDAY_DATA:
+      // console.log(action.payload);
       AsyncStorage.getItem('birthdayData')
         .then(data => {
           AsyncStorage.setItem(
@@ -89,6 +88,17 @@ export default (state = INITIAL_STATE, action) => {
         name: action.payload.name,
         birthdayDate: action.payload.birthdayDate,
         shoppingDate: action.payload.shoppingDate,
+      };
+
+    case types.CHANGE_BIRTHDAY_PERSON_NAME:
+      return {
+        ...state,
+        name: action.payload,
+      };
+    case types.CHANGE_BIRTHDAY_DATE:
+      return {
+        ...state,
+        birthdayDate: action.payload,
       };
     default:
       return state;

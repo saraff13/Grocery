@@ -1,5 +1,15 @@
 import * as types from '../actionTypes';
 
+export const changeName = payload => ({
+  type: types.CHANGE_BIRTHDAY_PERSON_NAME,
+  payload,
+});
+
+export const changeDOB = payload => ({
+  type: types.CHANGE_BIRTHDAY_DATE,
+  payload,
+});
+
 export const addBirthdayItem = payload => ({
   type: types.ADD_BIRTHDAY_ITEM_SUCCESS,
   payload,

@@ -23,8 +23,8 @@ class ShowBirthdayItemList extends Component {
             {itemList.length ? (
               itemList.map((item, index) => {
                 return (
-                  <View>
-                    <Text key={index}>
+                  <View key={index}>
+                    <Text>
                       {item.itemName}, {item.itemQuantity}
                     </Text>
                     <Button
@@ -58,6 +58,17 @@ class ShowBirthdayItemList extends Component {
             <Text>{`${name}'s Birthday is on ${birthdayDate}`}</Text>
             <Text>{`We will notify you to go for shopping on ${shoppingDate}`}</Text>
             <Text>{`Here is the list of items you need to buy`}</Text>
+            <Button
+              title="Edit"
+              onPress={() =>
+                this.props.setBirthdayData({
+                  itemList: itemList,
+                  name: name,
+                  birthdayDate: birthdayDate,
+                  shoppingDate: shoppingDate,
+                }) && this.props.navigation.navigate('Birthday')
+              }
+            />
             <Button
               title="start shopping"
               onPress={() => this.setState({startShopping: true})}
