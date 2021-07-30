@@ -10,6 +10,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Birthday from '../scenes/Birthday/Birthday';
 import PlannedBirthdays from '../scenes/Birthday/PlannedBirthdays';
 import ShowBirthdayItemList from '../scenes/Birthday/ShowBirthdayItemList';
+import Slider from '../scenes/Slider';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ class AuthNavigator extends Component {
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
+            <Stack.Screen name="Slider" component={Slider} />
             <Stack.Screen name="Login" component={Login} />
           </Stack.Navigator>
         )}
