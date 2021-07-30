@@ -10,22 +10,51 @@ import {
   saveBirthdayData,
   changeDOB,
   changeName,
+  changeShoppingDate,
 } from '../../store/actions/birthdayAction';
+import AsyncStorage from '@react-native-community/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Icon = MaterialCommunityIcons;
 
 class Birthday extends Component {
   state = {
-    shoppingDate: new Date(),
     showDatePicker: false,
     itemName: '',
     itemQuantity: '',
+    data: [],
+    indexOldState: -2,
   };
+  componentDidMount() {
+    AsyncStorage.getItem('birthdayData')
+      .then(data => {
+        if (data) {
+          this.setState({
+            data: JSON.parse(data),
+          });
+        }
+      })
+      .catch(error => {
+        console.log('ComponentDidMount Birthday error => ', error);
+      });
+  }
   render() {
-    const {shoppingDate, showDatePicker, itemName, itemQuantity} = this.state;
+    const {showDatePicker, itemName, itemQuantity, data, indexOldState} =
+      this.state;
+    const {name, itemList, birthdayDate, shoppingDate, edit} = this.props;
+    const obj = {birthdayDate, itemList, name, shoppingDate};
 
-    const {name, itemList, birthdayDate} = this.props;
+    if (data.length && indexOldState === -2) {
+      for (let i = 0; i < data.length; i++) {
+        if (
+          data[i].name === obj.name &&
+          data[i].birthdayDate === obj.birthdayDate &&
+          data[i].shoppingDate === obj.shoppingDate &&
+          JSON.stringify(data[i].itemList) === JSON.stringify(obj.itemList)
+        )
+          this.setState({indexOldState: i});
+      }
+    }
 
     return (
       <SafeAreaView style={[styles.main]}>
@@ -52,7 +81,9 @@ class Birthday extends Component {
             <DatePicker
               androidVariant="nativeAndroid"
               date={shoppingDate}
-              onDateChange={shoppingDate => this.setState({shoppingDate})}
+              onDateChange={shoppingDate =>
+                this.props.changeShoppingDate(shoppingDate)
+              }
             />
             <Button
               title="Confirm"
@@ -110,13 +141,15 @@ class Birthday extends Component {
           title="save"
           onPress={() =>
             this.props.saveBirthdayData({
-              name: name, // because this is in props
-              shoppingDate,
-              showDatePicker,
-              birthdayDate: birthdayDate, // because this is in props
-              itemName,
-              itemQuantity,
-              itemList,
+              index: indexOldState,
+              edit: edit,
+              oldData: data,
+              newData: {
+                name: name, // because this is in props
+                shoppingDate,
+                birthdayDate: birthdayDate, // because this is in props
+                itemList,
+              },
             }) && this.props.navigation.navigate('Home')
           }
         />
@@ -129,6 +162,8 @@ const mapStateToProps = state => ({
   itemList: state.birthdayReducer.itemList,
   name: state.birthdayReducer.name,
   birthdayDate: state.birthdayReducer.birthdayDate,
+  shoppingDate: state.birthdayReducer.shoppingDate,
+  edit: state.birthdayReducer.edit,
 });
 
 export default connect(mapStateToProps, {
@@ -137,4 +172,5 @@ export default connect(mapStateToProps, {
   saveBirthdayData,
   changeDOB,
   changeName,
+  changeShoppingDate,
 })(Birthday);

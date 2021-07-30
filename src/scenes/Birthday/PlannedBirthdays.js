@@ -49,7 +49,8 @@ class PlannedBirthdays extends Component {
               itemList: [],
               name: '',
               birthdayDate: '',
-              shoppingDate: '',
+              shoppingDate: new Date(),
+              edit: false,
             }) && this.props.navigation.navigate('Birthday')
           }
         />
@@ -57,6 +58,7 @@ class PlannedBirthdays extends Component {
 
         {data &&
           data.map((item, index) => {
+            item['edit'] = false;
             return (
               <View key={index}>
                 <TouchableOpacity

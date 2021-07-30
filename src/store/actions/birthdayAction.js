@@ -10,6 +10,11 @@ export const changeDOB = payload => ({
   payload,
 });
 
+export const changeShoppingDate = payload => ({
+  type: types.CHANGE_BIRTHDAY_SHOPPING_DATE,
+  payload,
+});
+
 export const addBirthdayItem = payload => ({
   type: types.ADD_BIRTHDAY_ITEM_SUCCESS,
   payload,

@@ -37,6 +37,7 @@ class ShowBirthdayItemList extends Component {
                           name: name,
                           birthdayDate: birthdayDate,
                           shoppingDate: shoppingDate,
+                          edit: false,
                         })
                       }
                     />
@@ -66,6 +67,7 @@ class ShowBirthdayItemList extends Component {
                   name: name,
                   birthdayDate: birthdayDate,
                   shoppingDate: shoppingDate,
+                  edit: true,
                 }) && this.props.navigation.navigate('Birthday')
               }
             />

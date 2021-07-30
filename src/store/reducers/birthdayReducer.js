@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   itemList: [],
   error: null,
   loading: false,
+  edit: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,12 +31,12 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
       };
     case types.DELETE_BIRTHDAY_ITEM_SUCCESS:
-      const newData = action.payload.itemList
+      const modifiedData = action.payload.itemList
         .slice(0, action.payload.index)
         .concat(action.payload.itemList.slice(action.payload.index + 1));
       return {
         ...state,
-        itemList: newData,
+        itemList: modifiedData,
         loading: false,
       };
     case types.ADD_BIRTHDAY_ITEM_FAIL || types.DELETE_BIRTHDAY_ITEM_FAIL:
@@ -47,20 +48,24 @@ export default (state = INITIAL_STATE, action) => {
       };
     case types.SAVE_BIRTHDAY_DATA:
       // console.log(action.payload);
-      AsyncStorage.getItem('birthdayData')
-        .then(data => {
-          AsyncStorage.setItem(
-            'birthdayData',
-            JSON.stringify([...JSON.parse(data), action.payload]),
-          );
-        })
-        .catch(error => {
-          console.log('reducer error => ', error);
-          AsyncStorage.setItem(
-            'birthdayData',
-            JSON.stringify([action.payload]),
-          );
-        });
+      const {edit, newData, oldData, index} = action.payload;
+      if (edit) {
+        oldData[index] = newData;
+        AsyncStorage.removeItem('birthdayData');
+        AsyncStorage.setItem('birthdayData', JSON.stringify(oldData));
+      } else {
+        AsyncStorage.getItem('birthdayData')
+          .then(data => {
+            AsyncStorage.setItem(
+              'birthdayData',
+              JSON.stringify([...JSON.parse(data), newData]),
+            );
+          })
+          .catch(error => {
+            console.log('reducer error => ', error);
+            AsyncStorage.setItem('birthdayData', JSON.stringify([newData]));
+          });
+      }
       return {
         ...state,
         ...INITIAL_STATE,
@@ -88,6 +93,7 @@ export default (state = INITIAL_STATE, action) => {
         name: action.payload.name,
         birthdayDate: action.payload.birthdayDate,
         shoppingDate: action.payload.shoppingDate,
+        edit: action.payload.edit,
       };
 
     case types.CHANGE_BIRTHDAY_PERSON_NAME:
@@ -99,6 +105,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         birthdayDate: action.payload,
+      };
+    case types.CHANGE_BIRTHDAY_SHOPPING_DATE:
+      return {
+        ...state,
+        shoppingDate: action.payload,
       };
     default:
       return state;
