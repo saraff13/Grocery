@@ -9,11 +9,13 @@ import {
   deleteBirthdayData,
   setBirthdayData,
 } from '../../store/actions/birthdayAction';
+import RecentPlans from './RecentPlans';
 
 class PlannedBirthdays extends Component {
   state = {
     loading: true,
     data: [],
+    showHistory: false,
   };
   componentDidMount() {
     AsyncStorage.getItem('birthdayData')
@@ -37,7 +39,7 @@ class PlannedBirthdays extends Component {
       });
   }
   render() {
-    const {loading, data} = this.state;
+    const {loading, data, showHistory} = this.state;
     if (loading) return <Loader loading={loading} />;
     // console.log(data);
     return (
@@ -56,6 +58,23 @@ class PlannedBirthdays extends Component {
         />
         <Text>Planned Birthdays</Text>
 
+        <TouchableOpacity
+          onPress={() => this.setState({showHistory: !showHistory})}>
+          <Text>
+            {showHistory ? 'Hide recent shoppings' : 'Show recent shoppings'}
+          </Text>
+        </TouchableOpacity>
+
+        {showHistory && (
+          <>
+            <Button
+              title="clear history"
+              onPress={() => AsyncStorage.removeItem('recentBirthdayPlans')}
+            />
+            <RecentPlans />
+          </>
+        )}
+
         {data &&
           data.map((item, index) => {
             item['edit'] = false;
@@ -64,7 +83,10 @@ class PlannedBirthdays extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     this.props.setBirthdayData(item) &&
-                      this.props.navigation.navigate('ShowBirthdayItemList');
+                      this.props.navigation.navigate('ShowBirthdayItemList', {
+                        index,
+                        data,
+                      });
                   }}>
                   <Text>
                     {item.name}'s birthday is on {item.birthdayDate}

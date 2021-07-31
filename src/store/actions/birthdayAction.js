@@ -39,3 +39,8 @@ export const setBirthdayData = payload => ({
   type: types.SET_BIRTHDAY_DATA,
   payload,
 });
+
+export const saveBirthdayShopppingDone = payload => ({
+  type: types.SAVE_THIS_TO_BIRTHDAY_SHOPPING_HISTORY,
+  payload,
+});

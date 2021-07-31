@@ -3,15 +3,27 @@ import {SafeAreaView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import styles from '../../styles/ShowBirthdayItemListStyle';
 import Button from '../../components/Button';
-import {setBirthdayData} from '../../store/actions/birthdayAction';
+import {
+  setBirthdayData,
+  saveBirthdayShopppingDone,
+  deleteBirthdayData,
+} from '../../store/actions/birthdayAction';
+
+let obj;
 
 class ShowBirthdayItemList extends Component {
   state = {
     startShopping: false,
   };
+  componentDidMount() {
+    const {itemList, name, birthdayDate, shoppingDate} = this.props;
+    obj = {itemList, name, birthdayDate, shoppingDate};
+  }
   render() {
     const {startShopping} = this.state;
     const {itemList, name, birthdayDate, shoppingDate} = this.props;
+    // console.log(this.props.route.params);
+    const {index, data} = this.props.route.params;
     // console.log(itemList);
     return (
       <>
@@ -49,7 +61,11 @@ class ShowBirthdayItemList extends Component {
                 <Text>We wish a Healthy Happy Birthday to {name}</Text>
                 <Button
                   title="End shopping"
-                  onPress={() => this.props.navigation.navigate('Home')}
+                  onPress={() =>
+                    this.props.deleteBirthdayData({data, index}) &&
+                    this.props.saveBirthdayShopppingDone(obj) &&
+                    this.props.navigation.navigate('Home')
+                  }
                 />
               </>
             )}
@@ -97,6 +113,8 @@ const mapStateToProps = state => ({
   shoppingDate: state.birthdayReducer.shoppingDate,
 });
 
-export default connect(mapStateToProps, {setBirthdayData})(
-  ShowBirthdayItemList,
-);
+export default connect(mapStateToProps, {
+  setBirthdayData,
+  saveBirthdayShopppingDone,
+  deleteBirthdayData,
+})(ShowBirthdayItemList);

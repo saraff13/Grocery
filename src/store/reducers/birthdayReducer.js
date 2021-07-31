@@ -111,6 +111,24 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         shoppingDate: action.payload,
       };
+    case types.SAVE_THIS_TO_BIRTHDAY_SHOPPING_HISTORY:
+      AsyncStorage.getItem('recentBirthdayPlans')
+        .then(data => {
+          AsyncStorage.setItem(
+            'recentBirthdayPlans',
+            JSON.stringify([...JSON.parse(data), action.payload]),
+          );
+        })
+        .catch(error => {
+          console.log('reducer error => ', error);
+          AsyncStorage.setItem(
+            'recentBirthdayPlans',
+            JSON.stringify([action.payload]),
+          );
+        });
+      return {
+        ...state,
+      };
     default:
       return state;
   }
