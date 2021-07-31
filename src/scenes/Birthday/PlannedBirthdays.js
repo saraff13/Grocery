@@ -69,7 +69,10 @@ class PlannedBirthdays extends Component {
           <>
             <Button
               title="clear history"
-              onPress={() => AsyncStorage.removeItem('recentBirthdayPlans')}
+              onPress={() =>
+                AsyncStorage.removeItem('recentBirthdayPlans') &&
+                this.setState({showHistory: true})
+              }
             />
             <RecentPlans />
           </>

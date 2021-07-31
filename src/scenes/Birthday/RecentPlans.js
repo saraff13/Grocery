@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 
 class RecentPlans extends Component {
   state = {
-    data: [],
+    data: null,
   };
   componentDidMount() {
     AsyncStorage.getItem('recentBirthdayPlans')
@@ -19,7 +19,7 @@ class RecentPlans extends Component {
     const {data} = this.state;
     return (
       <>
-        {data &&
+        {data ? (
           data.map((item, index) => {
             return (
               <View key={index}>
@@ -33,7 +33,10 @@ class RecentPlans extends Component {
                 </TouchableOpacity>
               </View>
             );
-          })}
+          })
+        ) : (
+          <Text>Nothing to show</Text>
+        )}
       </>
     );
   }
