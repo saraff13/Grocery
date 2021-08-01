@@ -4,18 +4,22 @@ import {connect} from 'react-redux';
 import styles from '../styles/HomeStyle';
 import {initLogout} from '../store/actions/logoutAction';
 import Button from '../components/Button';
+import Header from '../components/Header';
 
 class Home extends Component {
   render() {
     return (
-      <SafeAreaView style={[styles.main]}>
-        <Text>Home here</Text>
-        <Button
-          title="Birthday Section"
-          onPress={() => this.props.navigation.navigate('PlannedBirthdays')}
+      <>
+        <Header
+          navigation={this.props.navigation}
+          title="Dashboard"
+          showBellIcon
+          showDashIcon
         />
-        <Button title="Logout" onPress={() => this.props.initLogout()} />
-      </SafeAreaView>
+        <SafeAreaView style={[styles.main]}>
+          <Text>Home here</Text>
+        </SafeAreaView>
+      </>
     );
   }
 }

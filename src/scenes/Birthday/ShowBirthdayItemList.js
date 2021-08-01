@@ -64,7 +64,7 @@ class ShowBirthdayItemList extends Component {
                   onPress={() =>
                     this.props.deleteBirthdayData({data, index}) &&
                     this.props.saveBirthdayShopppingDone(obj) &&
-                    this.props.navigation.navigate('Home')
+                    this.props.navigation.navigate('PlannedBirthdays')
                   }
                 />
               </>

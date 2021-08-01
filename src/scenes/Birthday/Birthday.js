@@ -92,11 +92,6 @@ class Birthday extends Component {
           </>
         )}
 
-        <Button
-          title="Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-
         <View>
           <Text>Make a list of shopping</Text>
           <TextInput
@@ -150,7 +145,7 @@ class Birthday extends Component {
                 birthdayDate: birthdayDate, // because this is in props
                 itemList,
               },
-            }) && this.props.navigation.navigate('Home')
+            }) && this.props.navigation.navigate('PlannedBirthdays')
           }
         />
       </SafeAreaView>

@@ -10,7 +10,11 @@ import PlannedBirthdays from '../scenes/Birthday/PlannedBirthdays';
 import Profile from '../scenes/Profile';
 import About from '../scenes/About';
 import Help from '../scenes/Help';
+import {createStackNavigator} from '@react-navigation/stack';
+import Birthday from '../scenes/Birthday/Birthday';
+import ShowBirthdayItemList from '../scenes/Birthday/ShowBirthdayItemList';
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
@@ -35,7 +39,7 @@ class DrawerNavigator extends Component {
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Birthday" component={PlannedBirthdays} />
+        <Drawer.Screen name="Birthday" component={myBirthdayPlans} />
         <Drawer.Screen name="Profile" component={Profile} />
         <Drawer.Screen name="About" component={About} />
         <Drawer.Screen name="Help" component={Help} />
@@ -45,6 +49,23 @@ class DrawerNavigator extends Component {
 }
 
 export default DrawerNavigator;
+
+const myBirthdayPlans = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="PlannedBirthdays"
+        component={PlannedBirthdays}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="Birthday" component={Birthday} />
+      <Stack.Screen
+        name="ShowBirthdayItemList"
+        component={ShowBirthdayItemList}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   main: {

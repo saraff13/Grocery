@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import Home from '../scenes/Home';
 import Login from '../scenes/Login';
 import {setUserData} from '../store/actions/loginAction';
 import Loader from '../components/Loader';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Birthday from '../scenes/Birthday/Birthday';
-import PlannedBirthdays from '../scenes/Birthday/PlannedBirthdays';
-import ShowBirthdayItemList from '../scenes/Birthday/ShowBirthdayItemList';
 import Slider from '../scenes/Slider';
+import Notifications from '../scenes/Notifications';
 import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
@@ -42,16 +39,12 @@ class AuthNavigator extends Component {
       <NavigationContainer>
         {user ? (
           <Stack.Navigator>
-            <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
             <Stack.Screen
-              name="PlannedBirthdays"
-              component={PlannedBirthdays}
+              name="DrawerNavigator"
+              component={DrawerNavigator}
+              options={{headerShown: false}}
             />
-            <Stack.Screen
-              name="ShowBirthdayItemList"
-              component={ShowBirthdayItemList}
-            />
-            <Stack.Screen name="Birthday" component={Birthday} />
+            <Stack.Screen name="Notifications" component={Notifications} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
