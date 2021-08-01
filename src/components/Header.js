@@ -11,13 +11,22 @@ class Header extends Component {
       title = '',
       showBellIcon = false,
       showBackIcon = false,
-      showDashIcon = false,
       navigation,
     } = this.props;
     return (
       <>
         {showBackIcon ? (
-          <Text>back</Text>
+          <View style={[styles.main]}>
+            <TouchableOpacity
+              style={[styles.iconLeft]}
+              onPress={() => navigation.goBack()}>
+              <Icon name="arrow-left" size={30} color="black" />
+            </TouchableOpacity>
+
+            <Text style={[styles.headerTitle]}>{title}</Text>
+
+            <View style={[styles.empty]} />
+          </View>
         ) : (
           <View style={[styles.main]}>
             <TouchableOpacity

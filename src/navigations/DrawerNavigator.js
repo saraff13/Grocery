@@ -58,10 +58,15 @@ const myBirthdayPlans = () => {
         component={PlannedBirthdays}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Birthday" component={Birthday} />
+      <Stack.Screen
+        name="Birthday"
+        component={Birthday}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="ShowBirthdayItemList"
         component={ShowBirthdayItemList}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

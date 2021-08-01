@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text, TextInput, View} from 'react-native';
 import {connect} from 'react-redux';
-import styles from '../../styles/BirthdayStyle';
+import styles from '../../styles/Birthday/BirthdayStyle';
 import Button from '../../components/Button';
 import DatePicker from 'react-native-date-picker';
 import {
@@ -14,6 +14,7 @@ import {
 } from '../../store/actions/birthdayAction';
 import AsyncStorage from '@react-native-community/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Header from '../../components/Header';
 
 const Icon = MaterialCommunityIcons;
 
@@ -58,7 +59,7 @@ class Birthday extends Component {
   render() {
     const {showDatePicker, itemName, itemQuantity, data, indexOldState} =
       this.state;
-    const {name, itemList, birthdayDate, shoppingDate} = this.props;
+    const {name, itemList, birthdayDate, shoppingDate, edit} = this.props;
     const obj = {birthdayDate, itemList, name, shoppingDate};
 
     if (data.length && indexOldState === -2) {
@@ -74,83 +75,103 @@ class Birthday extends Component {
     }
 
     return (
-      <SafeAreaView style={[styles.main]}>
-        <TextInput
-          value={name}
-          placeholder="Enter whose birthday it is"
-          onChangeText={name => this.props.changeName(name)}
-        />
-        <View>
-          <Text>DOB: </Text>
-          <TextInput
-            value={birthdayDate}
-            placeholder="dd-mm-yyyy"
-            onChangeText={birthdayDate => this.props.changeDOB(birthdayDate)}
+      <>
+        {edit ? (
+          <Header
+            title="Edit Details"
+            showBackIcon
+            navigation={this.props.navigation}
           />
-        </View>
-
-        <Button
-          title="Choose a perfect time to go for shopping"
-          onPress={() => this.setState({showDatePicker: true})}
-        />
-        {showDatePicker && (
-          <>
-            <DatePicker
-              androidVariant="nativeAndroid"
-              date={shoppingDate}
-              onDateChange={shoppingDate =>
-                this.props.changeShoppingDate(shoppingDate)
-              }
-            />
-            <Button
-              title="Confirm"
-              onPress={() => this.setState({showDatePicker: false})}
-            />
-          </>
+        ) : (
+          <Header
+            title="Add Plan Details"
+            showBackIcon
+            navigation={this.props.navigation}
+          />
         )}
 
-        <View>
-          <Text>Make a list of shopping</Text>
+        <SafeAreaView style={[styles.main]}>
           <TextInput
-            placeholder="Item name"
-            value={itemName}
-            onChangeText={itemName => this.setState({itemName})}
+            value={name}
+            placeholder="Enter whose birthday it is"
+            onChangeText={name => this.props.changeName(name)}
           />
-          <TextInput
-            placeholder="Item quantity"
-            value={itemQuantity}
-            onChangeText={itemQuantity => this.setState({itemQuantity})}
+          <View>
+            <Text>DOB: </Text>
+            <TextInput
+              value={birthdayDate}
+              placeholder="dd-mm-yyyy"
+              onChangeText={birthdayDate => this.props.changeDOB(birthdayDate)}
+            />
+          </View>
+
+          <Button
+            title="Choose a perfect time to go for shopping"
+            onPress={() => this.setState({showDatePicker: true})}
           />
-          <Text>
-            {itemName && itemQuantity && (
-              <Button
-                title="ADD"
-                onPress={() =>
-                  this.props.addBirthdayItem({itemList, itemName, itemQuantity})
+          {showDatePicker && (
+            <>
+              <DatePicker
+                androidVariant="nativeAndroid"
+                date={shoppingDate}
+                onDateChange={shoppingDate =>
+                  this.props.changeShoppingDate(shoppingDate)
                 }
               />
-            )}
-          </Text>
-        </View>
-        <View>
-          {itemList.map((item, index) => {
-            return (
-              <View key={index}>
-                <Text>
-                  {item.itemName}, {item.itemQuantity}
-                </Text>
+              <Button
+                title="Confirm"
+                onPress={() => this.setState({showDatePicker: false})}
+              />
+            </>
+          )}
+
+          <View>
+            <Text>Make a list of shopping</Text>
+            <TextInput
+              placeholder="Item name"
+              value={itemName}
+              onChangeText={itemName => this.setState({itemName})}
+            />
+            <TextInput
+              placeholder="Item quantity"
+              value={itemQuantity}
+              onChangeText={itemQuantity => this.setState({itemQuantity})}
+            />
+            <Text>
+              {itemName && itemQuantity && (
                 <Button
-                  title="delete"
+                  title="ADD"
                   onPress={() =>
-                    this.props.deleteBirthdayItem({itemList, index})
+                    this.props.addBirthdayItem({
+                      itemList,
+                      itemName,
+                      itemQuantity,
+                    })
                   }
                 />
-              </View>
-            );
-          })}
-        </View>
-        <Button title="save" onPress={() => this.save()} />
-      </SafeAreaView>
+              )}
+            </Text>
+          </View>
+          <View>
+            {itemList.map((item, index) => {
+              return (
+                <View key={index}>
+                  <Text>
+                    {item.itemName}, {item.itemQuantity}
+                  </Text>
+                  <Button
+                    title="delete"
+                    onPress={() =>
+                      this.props.deleteBirthdayItem({itemList, index})
+                    }
+                  />
+                </View>
+              );
+            })}
+          </View>
+          <Button title="save" onPress={() => this.save()} />
+        </SafeAreaView>
+      </>
     );
   }
 }

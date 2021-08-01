@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
-import styles from '../../styles/PlannedBirthdaysStyle';
+import styles from '../../styles/Birthday/PlannedBirthdaysStyle';
 import Button from '../../components/Button';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../components/Loader';
@@ -47,11 +47,7 @@ class PlannedBirthdays extends Component {
     // console.log(data);
     return (
       <>
-        <Header
-          navigation={this.props.navigation}
-          title="Birthdays"
-          showDashIcon
-        />
+        <Header navigation={this.props.navigation} title="Birthday Plans" />
         <SafeAreaView style={[styles.main]}>
           <Button
             title="Plan New"

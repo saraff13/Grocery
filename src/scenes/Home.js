@@ -14,7 +14,6 @@ class Home extends Component {
           navigation={this.props.navigation}
           title="Dashboard"
           showBellIcon
-          showDashIcon
         />
         <SafeAreaView style={[styles.main]}>
           <Text>Home here</Text>

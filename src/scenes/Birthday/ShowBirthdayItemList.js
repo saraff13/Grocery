@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import styles from '../../styles/ShowBirthdayItemListStyle';
+import styles from '../../styles/Birthday/ShowBirthdayItemListStyle';
 import Button from '../../components/Button';
 import {
   setBirthdayData,
   saveBirthdayShopppingDone,
   deleteBirthdayData,
 } from '../../store/actions/birthdayAction';
+import Header from '../../components/Header';
 
 let obj;
 
@@ -38,77 +39,91 @@ class ShowBirthdayItemList extends Component {
     return (
       <>
         {startShopping ? (
-          <SafeAreaView style={[styles.main]}>
-            <Text>
-              Just simply buy items and check the items which are bought
-            </Text>
-            {itemList.length ? (
-              itemList.map((item, index) => {
-                return (
-                  <View key={index}>
-                    <Text>
-                      {item.itemName}, {item.itemQuantity}
-                    </Text>
-                    <Button
-                      title="bought"
-                      onPress={() =>
-                        this.props.setBirthdayData({
-                          itemList: itemList
-                            .slice(0, index)
-                            .concat(itemList.slice(index + 1)),
-                          name: name,
-                          birthdayDate: birthdayDate,
-                          shoppingDate: shoppingDate,
-                          edit: false,
-                        })
-                      }
-                    />
-                  </View>
-                );
-              })
-            ) : (
-              <>
-                <Text>We wish a Healthy Happy Birthday to {name}</Text>
-                <Button
-                  title="End shopping"
-                  onPress={() => this.endShopping()}
-                />
-              </>
-            )}
-          </SafeAreaView>
-        ) : (
-          <SafeAreaView style={[styles.main]}>
-            <Text>{`${name}'s Birthday is on ${birthdayDate}`}</Text>
-            <Text>{`We will notify you to go for shopping on ${shoppingDate}`}</Text>
-            <Text>{`Here is the list of items you need to buy`}</Text>
-            <Button
-              title="Edit"
-              onPress={() =>
-                this.props.setBirthdayData({
-                  itemList: itemList,
-                  name: name,
-                  birthdayDate: birthdayDate,
-                  shoppingDate: shoppingDate,
-                  edit: true,
-                }) &&
-                this.props.navigation.navigate('Birthday', {
-                  onGoBack: () => this.back(),
+          <>
+            <Header
+              title={`Buy & Update`}
+              showBackIcon
+              navigation={this.props.navigation}
+            />
+            <SafeAreaView style={[styles.main]}>
+              <Text>
+                Just simply buy items and check the items which are bought
+              </Text>
+              {itemList.length ? (
+                itemList.map((item, index) => {
+                  return (
+                    <View key={index}>
+                      <Text>
+                        {item.itemName}, {item.itemQuantity}
+                      </Text>
+                      <Button
+                        title="bought"
+                        onPress={() =>
+                          this.props.setBirthdayData({
+                            itemList: itemList
+                              .slice(0, index)
+                              .concat(itemList.slice(index + 1)),
+                            name: name,
+                            birthdayDate: birthdayDate,
+                            shoppingDate: shoppingDate,
+                            edit: false,
+                          })
+                        }
+                      />
+                    </View>
+                  );
                 })
-              }
+              ) : (
+                <>
+                  <Text>We wish a Healthy Happy Birthday to {name}</Text>
+                  <Button
+                    title="End shopping"
+                    onPress={() => this.endShopping()}
+                  />
+                </>
+              )}
+            </SafeAreaView>
+          </>
+        ) : (
+          <>
+            <Header
+              title="Plan Details"
+              showBackIcon
+              navigation={this.props.navigation}
             />
-            <Button
-              title="start shopping"
-              onPress={() => this.setState({startShopping: true})}
-            />
-            {itemList &&
-              itemList.map((item, index) => {
-                return (
-                  <Text key={index}>
-                    {item.itemName},{item.itemQuantity}
-                  </Text>
-                );
-              })}
-          </SafeAreaView>
+            <SafeAreaView style={[styles.main]}>
+              <Text>{`${name}'s Birthday is on ${birthdayDate}`}</Text>
+              <Text>{`We will notify you to go for shopping on ${shoppingDate}`}</Text>
+              <Text>{`Here is the list of items you need to buy`}</Text>
+              <Button
+                title="Edit"
+                onPress={() =>
+                  this.props.setBirthdayData({
+                    itemList: itemList,
+                    name: name,
+                    birthdayDate: birthdayDate,
+                    shoppingDate: shoppingDate,
+                    edit: true,
+                  }) &&
+                  this.props.navigation.navigate('Birthday', {
+                    onGoBack: () => this.back(),
+                  })
+                }
+              />
+              <Button
+                title="start shopping"
+                onPress={() => this.setState({startShopping: true})}
+              />
+              {itemList &&
+                itemList.map((item, index) => {
+                  return (
+                    <Text key={index}>
+                      {item.itemName},{item.itemQuantity}
+                    </Text>
+                  );
+                })}
+            </SafeAreaView>
+          </>
         )}
       </>
     );

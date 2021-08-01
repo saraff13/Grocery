@@ -44,12 +44,24 @@ class AuthNavigator extends Component {
               component={DrawerNavigator}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="Notifications" component={Notifications} />
+            <Stack.Screen
+              name="Notifications"
+              component={Notifications}
+              options={{headerShown: false}}
+            />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
-            <Stack.Screen name="Slider" component={Slider} />
-            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen
+              name="Slider"
+              component={Slider}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{headerShown: false}}
+            />
           </Stack.Navigator>
         )}
       </NavigationContainer>
