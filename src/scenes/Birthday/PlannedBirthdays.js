@@ -30,19 +30,21 @@ class PlannedBirthdays extends Component {
   }
   updateData() {
     this.setState({loading: true});
-    AsyncStorage.getItem('birthdayData')
-      .then(data => {
-        this.setState({data: JSON.parse(data), loading: false});
-      })
-      .catch(error => {
-        console.log('Planned Birthdays error => ', error);
-        this.setState({loading: false});
-      });
+    setTimeout(() => {
+      AsyncStorage.getItem('birthdayData')
+        .then(data => {
+          this.setState({data: JSON.parse(data), loading: false});
+        })
+        .catch(error => {
+          console.log('Planned Birthdays error => ', error);
+          this.setState({loading: false});
+        });
+    }, 1000);
   }
   render() {
     const {loading, data, showHistory} = this.state;
     if (loading) return <Loader loading={loading} />;
-    console.log(data);
+    // console.log(data);
     return (
       <>
         <Header
@@ -60,7 +62,10 @@ class PlannedBirthdays extends Component {
                 birthdayDate: '',
                 shoppingDate: new Date(),
                 edit: false,
-              }) && this.props.navigation.navigate('Birthday')
+              }) &&
+              this.props.navigation.navigate('Birthday', {
+                onGoBack: () => this.updateData(),
+              })
             }
           />
           <Text>Planned Birthdays</Text>
@@ -96,6 +101,7 @@ class PlannedBirthdays extends Component {
                         this.props.navigation.navigate('ShowBirthdayItemList', {
                           index,
                           data,
+                          onGoBack: () => this.updateData(),
                         });
                     }}>
                     <Text>

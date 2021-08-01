@@ -19,11 +19,21 @@ class ShowBirthdayItemList extends Component {
     const {itemList, name, birthdayDate, shoppingDate} = this.props;
     obj = {itemList, name, birthdayDate, shoppingDate};
   }
+  endShopping() {
+    const {index, data} = this.props.route.params;
+    this.props.deleteBirthdayData({data, index});
+    this.props.saveBirthdayShopppingDone(obj);
+    this.props.route.params.onGoBack();
+    this.props.navigation.goBack();
+  }
+  back() {
+    this.props.route.params.onGoBack();
+    this.props.navigation.goBack();
+  }
   render() {
     const {startShopping} = this.state;
     const {itemList, name, birthdayDate, shoppingDate} = this.props;
     // console.log(this.props.route.params);
-    const {index, data} = this.props.route.params;
     // console.log(itemList);
     return (
       <>
@@ -61,11 +71,7 @@ class ShowBirthdayItemList extends Component {
                 <Text>We wish a Healthy Happy Birthday to {name}</Text>
                 <Button
                   title="End shopping"
-                  onPress={() =>
-                    this.props.deleteBirthdayData({data, index}) &&
-                    this.props.saveBirthdayShopppingDone(obj) &&
-                    this.props.navigation.navigate('PlannedBirthdays')
-                  }
+                  onPress={() => this.endShopping()}
                 />
               </>
             )}
@@ -84,7 +90,10 @@ class ShowBirthdayItemList extends Component {
                   birthdayDate: birthdayDate,
                   shoppingDate: shoppingDate,
                   edit: true,
-                }) && this.props.navigation.navigate('Birthday')
+                }) &&
+                this.props.navigation.navigate('Birthday', {
+                  onGoBack: () => this.back(),
+                })
               }
             />
             <Button

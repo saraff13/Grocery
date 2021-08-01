@@ -38,10 +38,27 @@ class Birthday extends Component {
         console.log('ComponentDidMount Birthday error => ', error);
       });
   }
+  save() {
+    const {data, indexOldState} = this.state;
+    const {name, itemList, birthdayDate, shoppingDate, edit} = this.props;
+    this.props.saveBirthdayData({
+      index: indexOldState,
+      edit: edit,
+      oldData: data,
+      newData: {
+        name: name, // because this is in props
+        shoppingDate,
+        birthdayDate: birthdayDate, // because this is in props
+        itemList,
+      },
+    });
+    this.props.route.params.onGoBack();
+    this.props.navigation.goBack();
+  }
   render() {
     const {showDatePicker, itemName, itemQuantity, data, indexOldState} =
       this.state;
-    const {name, itemList, birthdayDate, shoppingDate, edit} = this.props;
+    const {name, itemList, birthdayDate, shoppingDate} = this.props;
     const obj = {birthdayDate, itemList, name, shoppingDate};
 
     if (data.length && indexOldState === -2) {
@@ -132,22 +149,7 @@ class Birthday extends Component {
             );
           })}
         </View>
-        <Button
-          title="save"
-          onPress={() =>
-            this.props.saveBirthdayData({
-              index: indexOldState,
-              edit: edit,
-              oldData: data,
-              newData: {
-                name: name, // because this is in props
-                shoppingDate,
-                birthdayDate: birthdayDate, // because this is in props
-                itemList,
-              },
-            }) && this.props.navigation.navigate('PlannedBirthdays')
-          }
-        />
+        <Button title="save" onPress={() => this.save()} />
       </SafeAreaView>
     );
   }
