@@ -116,7 +116,7 @@ export default (state = INITIAL_STATE, action) => {
         .then(data => {
           AsyncStorage.setItem(
             'recentBirthdayPlans',
-            JSON.stringify([...JSON.parse(data), action.payload]),
+            JSON.stringify([action.payload, ...JSON.parse(data)]),
           );
         })
         .catch(error => {

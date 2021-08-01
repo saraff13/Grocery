@@ -71,7 +71,7 @@ class PlannedBirthdays extends Component {
               title="clear history"
               onPress={() =>
                 AsyncStorage.removeItem('recentBirthdayPlans') &&
-                this.setState({showHistory: true})
+                this.setState({showHistory: false})
               }
             />
             <RecentPlans />
