@@ -11,6 +11,7 @@ import Birthday from '../scenes/Birthday/Birthday';
 import PlannedBirthdays from '../scenes/Birthday/PlannedBirthdays';
 import ShowBirthdayItemList from '../scenes/Birthday/ShowBirthdayItemList';
 import Slider from '../scenes/Slider';
+import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
 
@@ -41,7 +42,7 @@ class AuthNavigator extends Component {
       <NavigationContainer>
         {user ? (
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
             <Stack.Screen
               name="PlannedBirthdays"
               component={PlannedBirthdays}
