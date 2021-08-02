@@ -19,13 +19,13 @@ class Header extends Component {
           <TouchableOpacity
             style={[styles.iconLeft]}
             onPress={() => navigation.goBack()}>
-            <Icon name="arrow-left" size={30} color="black" />
+            <Icon name="arrow-left" size={30} color="white" />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={[styles.iconLeft]}
             onPress={() => navigation.openDrawer()}>
-            <Icon name="menu" size={30} color="black" />
+            <Icon name="menu" size={30} color="white" />
           </TouchableOpacity>
         )}
 
@@ -35,7 +35,7 @@ class Header extends Component {
           <TouchableOpacity
             style={[styles.iconRight]}
             onPress={() => this.props.navigation.navigate('Notifications')}>
-            <Icon name="bell" size={25} color="black" />
+            <Icon name="bell" size={25} color="white" />
           </TouchableOpacity>
         ) : (
           <View style={[styles.empty]} />
@@ -52,23 +52,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'steelblue',
     height: responsiveHeight(8),
   },
   headerTitle: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'black',
+    color: 'white',
     // borderWidth: 1,
     width: responsiveWidth(82),
-  },
-  leftIcon: {
-    // borderWidth: 1,
-    width: responsiveWidth(9),
-  },
-  rightIcon: {
-    // borderWidth: 1,
-    width: responsiveWidth(9),
   },
   empty: {
     // borderWidth: 1,
