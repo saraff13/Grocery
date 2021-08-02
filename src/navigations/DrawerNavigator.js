@@ -13,11 +13,13 @@ import Help from '../scenes/Help';
 import {createStackNavigator} from '@react-navigation/stack';
 import Birthday from '../scenes/Birthday/Birthday';
 import ShowBirthdayItemList from '../scenes/Birthday/ShowBirthdayItemList';
+import {connect} from 'react-redux';
+import {responsiveWidth} from '../utils/Responsive';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function CustomDrawerContent(props) {
+const CustomDrawerContent = props => {
   return (
     <DrawerContentScrollView {...props}>
       <View style={[styles.profileBox]}>
@@ -25,19 +27,20 @@ function CustomDrawerContent(props) {
           source={require('../assests/images/profile.jpg')}
           style={[styles.image]}
         />
-        <Text style={[styles.name]}>Sumit Saraff</Text>
+        <Text style={[styles.name]}>Hi {props.user}</Text>
       </View>
 
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
   );
-}
+};
 
 class DrawerNavigator extends Component {
   render() {
+    const {user} = this.props;
     return (
       <Drawer.Navigator
-        drawerContent={props => <CustomDrawerContent {...props} />}>
+        drawerContent={props => <CustomDrawerContent user={user} {...props} />}>
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Birthday" component={myBirthdayPlans} />
         <Drawer.Screen name="Profile" component={Profile} />
@@ -48,7 +51,11 @@ class DrawerNavigator extends Component {
   }
 }
 
-export default DrawerNavigator;
+const mapStateToProps = state => ({
+  user: state.loginReducer.user,
+});
+
+export default connect(mapStateToProps)(DrawerNavigator);
 
 const myBirthdayPlans = () => {
   return (
@@ -80,13 +87,16 @@ const styles = StyleSheet.create({
   },
   profileBox: {
     alignItems: 'center',
-    marginVertical: 15,
+    marginVertical: 20,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: responsiveWidth(25),
+    height: responsiveWidth(25),
+    borderRadius: 200,
+    marginVertical: 10,
   },
   name: {
-    fontSize: 25,
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
